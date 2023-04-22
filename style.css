@@ -1,0 +1,116 @@
+GENERAL STYLING
+------------------------------*/
+body {
+	font-family: sans-serif;
+	background: #f2f2f2;
+	padding: 0;
+	margin: 0;
+}
+
+/*------------------------------
+CONTAINER STYLING
+------------------------------*/
+.container {
+	width: 80%;
+	margin: 0 auto;
+	background: #fff;
+	padding: 20px;
+}
+
+/*------------------------------
+HEADER STYLING
+------------------------------*/
+.header {
+	text-align: center;
+	padding: 20px;
+	background: #f2f2f2;
+}
+
+.header h1 {
+	font-size: 2.5em;
+	margin: 0;
+	padding: 0;
+	text-transform: uppercase;
+	letter-spacing: 5px;
+	font-weight: bold;
+	color: #000;
+}
+
+/*------------------------------
+IMAGE STYLING
+------------------------------*/
+.image {
+	text-align: center;
+	padding: 20px;
+}
+
+.image img {
+	width: 200px;
+	border-radius: 100px;
+}
+
+/*------------------------------
+INTRO STYLING
+------------------------------*/
+.intro {
+	float: left;
+	width: 30%;
+	padding: 20px;
+	text-align: center;
+}
+
+.intro h2 {
+	font-size: 1.5em;
+	margin: 0;
+	padding: 0;
+	text-transform: uppercase;
+	letter-spacing: 5px;
+	font-weight: bold;
+	color: #000;
+}
+
+/*------------------------------
+SKILLS STYLING
+------------------------------*/
+.skills {
+	float: right;
+	width: 30%;
+	padding: 20px;
+	text-align: center;
+}
+
+.skills h3 {
+	font-size: 1.5em;
+	margin: 0;
+	padding: 0;
+	text-transform: uppercase;
+	letter-spacing: 5px;
+	font-weight: bold;
+	color: #000;
+}
+
+#skill-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-align: left;
+}
+
+/*------------------------------
+MAIN TEXT STYLING
+------------------------------*/
+.main-text {
+	clear: both;
+	padding: 20px;
+	text-align: center;
+}
+
+.main-text h3 {
+	font-size: 1.5em;
+	margin: 0;
+	padding: 0;
+	text-transform: uppercase;
+	letter-spacing: 5px;
+	font-weight: bold;
+	color: #000;
+}
