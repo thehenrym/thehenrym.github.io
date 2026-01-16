@@ -25,16 +25,16 @@
                     colors: {
                         'ln-black': '#0a0a0a',
                         'ln-dark': '#111112',
-                        'ln-orange': '#FE5733',  // Updated to Orange
-                        'ln-purple': '#9F62EA', // End of gradient (Adjust this hex to match your image exactly)
+                        'ln-orange': '#FE5733',
+                        'ln-purple': '#9F62EA',
                         'ln-gray': '#2a2a2a',
                     },
                     fontFamily: {
                         'display': ['"Syncopate"', 'sans-serif'],
                         'body': ['"Chakra Petch"', 'sans-serif'],
                     },
-                    backgroundImage: {
-                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
+                    screens: {
+                        'xs': '375px', // Added for smaller phones
                     }
                 }
             }
@@ -46,7 +46,7 @@
             background-color: #0a0a0a;
             color: white;
             overflow-x: hidden;
-            cursor: default; /* Keep default cursor but add effect */
+            cursor: default;
         }
 
         /* Hide scrollbar for clean look */
@@ -67,32 +67,6 @@
             background: linear-gradient(135deg, #FE5733 0%, #9F62EA 100%);
         }
 
-        .gradient-border {
-            position: relative;
-            background: #111112;
-            background-clip: padding-box;
-            border: 1px solid transparent;
-            border-radius: 1rem;
-        }
-        .gradient-border::before {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
-            z-index: -1;
-            margin: -1px;
-            border-radius: inherit;
-            background: linear-gradient(to right, #FE5733, #9F62EA);
-        }
-
-        .clip-text-image {
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            background-image: url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-        }
-
         .marquee-container {
             display: flex;
             overflow: hidden;
@@ -104,11 +78,6 @@
             color: transparent;
         }
 
-        .hover-gradient:hover {
-            color: #FE5733;
-            border-color: #FE5733;
-        }
-        
         /* Custom Loader */
         .loader {
             position: fixed;
@@ -121,21 +90,40 @@
             transform-origin: top;
         }
 
-        /* Cursor Effect */
-        .cursor-glow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(254,87,51,0.15) 0%, rgba(159,98,234,0.1) 40%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998; /* Behind nav but visible */
-            mix-blend-mode: screen;
-            filter: blur(30px);
-            opacity: 0; /* Hidden until JS loads */
-            transform: translate(-50%, -50%);
+        /* Cursor Effect - Only on devices that support hover (Desktops) */
+        @media (hover: hover) {
+            .cursor-glow {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 400px;
+                height: 400px;
+                background: radial-gradient(circle, rgba(254,87,51,0.15) 0%, rgba(159,98,234,0.1) 40%, transparent 70%);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9998;
+                mix-blend-mode: screen;
+                filter: blur(30px);
+                opacity: 0;
+                transform: translate(-50%, -50%);
+            }
+        }
+        
+        /* Disable custom cursor on mobile to save performance */
+        @media (hover: none) {
+            .cursor-glow {
+                display: none;
+            }
+        }
+
+        /* Mobile Menu Transitions */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* Prevent layout shifts */
+        .hero-title {
+            font-size: clamp(3rem, 12vw, 10rem);
         }
     </style>
 </head>
@@ -143,59 +131,64 @@
 
     <!-- Loading Screen -->
     <div class="loader">
-        <!-- Loader Logo (Increased Size) -->
         <img src="https://cdn.discordapp.com/attachments/1323758532432236638/1461642517316501638/fiddy.png?ex=696b4c2c&is=6969faac&hm=be3b984545ca64a74b85e6efd936d77ce613365be742f7d9bed4304b6aa38ef9&" 
              alt="Team Fifty Logo" 
-             class="w-48 md:w-64 h-auto object-contain drop-shadow-2xl">
+             class="w-32 md:w-64 h-auto object-contain drop-shadow-2xl">
     </div>
 
     <!-- Cursor Glow Element -->
     <div class="cursor-glow"></div>
 
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-ln-black z-[60] transform translate-x-full flex flex-col justify-center items-center gap-8">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-white uppercase font-bold text-xs tracking-widest p-4">Close</button>
+        <a href="index.html" class="mobile-link text-3xl font-display font-bold uppercase text-transparent stroke-text hover:text-white transition-all">Home</a>
+        <a href="roster.html" class="mobile-link text-3xl font-display font-bold uppercase text-transparent stroke-text hover:text-white transition-all">Roster</a>
+        <a href="schedule.html" class="mobile-link text-3xl font-display font-bold uppercase text-transparent stroke-text hover:text-white transition-all">Schedule</a>
+        <a href="results.html" class="mobile-link text-3xl font-display font-bold uppercase text-transparent stroke-text hover:text-white transition-all">Results</a>
+    </div>
+
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference text-white">
+    <nav class="fixed top-0 w-full z-50 px-4 md:px-6 py-6 flex justify-between items-center mix-blend-difference text-white">
         <!-- Nav Logo -->
         <div class="font-display font-bold text-xl tracking-widest">
             <img src="https://cdn.discordapp.com/attachments/1323758532432236638/1461642517316501638/fiddy.png?ex=696b4c2c&is=6969faac&hm=be3b984545ca64a74b85e6efd936d77ce613365be742f7d9bed4304b6aa38ef9&" 
                  alt="Team Fifty" 
-                 class="h-20 w-auto object-contain">
+                 class="h-14 md:h-20 w-auto object-contain">
         </div>
         
-        <!-- Desktop Nav Links (Centered) -->
+        <!-- Desktop Nav Links -->
         <div class="hidden md:flex gap-8 text-sm uppercase tracking-widest font-bold items-center absolute left-1/2 -translate-x-1/2">
-            <a href="#" class="hover:text-ln-orange transition-colors">Home</a>
-            <a href="#" class="hover:text-ln-orange transition-colors">Roster</a>
-            <a href="#" class="hover:text-ln-orange transition-colors">Schedule</a>
-            <a href="#" class="hover:text-ln-orange transition-colors">Results</a>
+            <a href="index.html" class="hover:text-ln-orange transition-colors">Home</a>
+            <a href="roster.html" class="hover:text-ln-orange transition-colors">Roster</a>
+            <a href="schedule.html" class="hover:text-ln-orange transition-colors">Schedule</a>
+            <a href="results.html" class="hover:text-ln-orange transition-colors">Results</a>
         </div>
 
-        <!-- Mobile Menu Button (Visible only on mobile) -->
-        <button class="md:hidden bg-white text-black px-6 py-2 uppercase font-bold text-xs hover:bg-gradient-to-r hover:from-ln-orange hover:to-ln-purple transition-all hover:text-white">
+        <!-- Mobile Menu Button -->
+        <button id="open-menu-btn" class="md:hidden bg-white text-black px-5 py-2 uppercase font-bold text-[10px] tracking-widest hover:bg-gradient-to-r hover:from-ln-orange hover:to-ln-purple transition-all hover:text-white rounded-sm">
             Menu
         </button>
     </nav>
 
     <!-- Hero Section -->
-    <header class="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden">
-        <!-- Background Video/Image Placeholder -->
+    <!-- Using svh (Small Viewport Height) for better mobile browser support -->
+    <header class="relative h-[100svh] w-full flex flex-col justify-center items-center overflow-hidden">
         <div class="absolute inset-0 z-0 opacity-40">
-            <!-- Updated Background Image -->
             <img src="https://cdn.discordapp.com/attachments/1096669702891257928/1143120336376823869/3.PNG?ex=696ab306&is=69696186&hm=41571593be115c220f76a5f7494bea124c56ce903a3ca5400b7ca93b169e4328&" class="w-full h-full object-cover hero-img" alt="">
         </div>
         
-        <div class="relative z-10 text-center flex flex-col items-center">
-            <!-- Updated Subtitle -->
-            <p class="gradient-text uppercase tracking-[0.5em] text-xs md:text-sm mb-4 hero-anim font-bold">ESTABLISHED 2022</p>
-            <h1 class="font-display text-[12vw] leading-[0.85] font-bold uppercase mix-blend-overlay hero-anim">
+        <div class="relative z-10 text-center flex flex-col items-center px-4">
+            <p class="gradient-text uppercase tracking-[0.3em] md:tracking-[0.5em] text-[10px] md:text-sm mb-2 md:mb-4 hero-anim font-bold">ESTABLISHED 2022</p>
+            <h1 class="font-display hero-title leading-[0.85] font-bold uppercase mix-blend-overlay hero-anim">
                 Team<br>
                 <span class="text-white opacity-90">Fifty</span>
             </h1>
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 hero-anim">
-            <!-- Updated Text -->
-            <span class="text-[10px] uppercase tracking-widest gradient-text font-bold">Learn More</span>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 hero-anim">
+            <span class="text-[10px] uppercase tracking-widest gradient-text font-bold">Scroll</span>
             <div class="w-[1px] h-12 bg-gray-800 relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-ln-orange to-ln-purple animate-pulse"></div>
             </div>
@@ -203,8 +196,8 @@
     </header>
 
     <!-- Marquee Section -->
-    <section class="py-12 gradient-bg text-black overflow-hidden rotate-1 scale-105 border-y-4 border-black">
-        <div class="marquee-container font-display text-6xl md:text-8xl font-black uppercase tracking-tighter">
+    <section class="py-8 md:py-12 gradient-bg text-black overflow-hidden rotate-1 scale-105 border-y-4 border-black">
+        <div class="marquee-container font-display text-4xl md:text-8xl font-black uppercase tracking-tighter">
             <span class="marquee-content mx-4">Precision — Speed — Team Fifty — Esports — </span>
             <span class="marquee-content mx-4">Precision — Speed — Team Fifty — Esports — </span>
             <span class="marquee-content mx-4">Precision — Speed — Team Fifty — Esports — </span>
@@ -212,43 +205,44 @@
         </div>
     </section>
 
-    <!-- Intro / Scrollytelling (ORIGINAL) -->
-    <section class="min-h-screen py-32 px-6 md:px-20 bg-ln-dark relative flex flex-col items-center">
-        <!-- Added "Proudest Moments" Title -->
-        <h3 class="font-display text-2xl md:text-3xl uppercase font-bold tracking-[0.2em] gradient-text mb-20 reveal-text text-center">
+    <!-- Intro / Scrollytelling (Adjusted padding for mobile) -->
+    <section class="min-h-screen py-20 md:py-32 px-4 md:px-20 bg-ln-dark relative flex flex-col items-center">
+        <h3 class="font-display text-xl md:text-3xl uppercase font-bold tracking-[0.2em] gradient-text mb-12 md:mb-20 reveal-text text-center">
             Proudest Moments
         </h3>
 
-        <div class="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-20 items-center">
-            <div class="relative group">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
+            <div class="relative group order-1 md:order-1">
                 <div class="absolute -inset-4 bg-gradient-to-r from-ln-orange to-ln-purple opacity-0 group-hover:opacity-30 rounded-full blur-3xl transition-opacity duration-700"></div>
                 <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Fuji-6.png" 
                      alt="Sim Rig Setup" 
-                     class="relative w-full aspect-[4/5] object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-700 ease-out border-b-4 border-ln-orange reveal-img">
+                     class="relative w-full aspect-[4/3] md:aspect-[4/5] object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-700 ease-out border-b-4 border-ln-orange reveal-img">
             </div>
             
-            <div class="flex flex-col justify-center space-y-8">
-                <h2 class="font-display text-5xl md:text-7xl uppercase font-bold leading-[0.9]">
+            <div class="flex flex-col justify-center space-y-6 md:space-y-8 order-2 md:order-2">
+                <h2 class="font-display text-4xl md:text-7xl uppercase font-bold leading-[0.9]">
                     <span class="reveal-text block text-transparent stroke-text hover:text-white transition-colors duration-500">2023</span>
                     <span class="reveal-text block">FUJI 8HR</span>
                     <span class="reveal-text block gradient-text">WINNERS</span>
                 </h2>
                 
-                <!-- Replaced text with Drivers List (Compact Version) -->
-                <div class="flex flex-col gap-3 mt-2 reveal-text max-w-md">
-                    <div class="flex items-center gap-3 p-3 border border-white/10 rounded-lg hover:border-ln-orange/50 transition-colors bg-white/5 group/driver">
+                <!-- Drivers List -->
+                <div class="flex flex-col gap-3 mt-2 reveal-text w-full md:max-w-md">
+                    <!-- Driver 1 -->
+                    <div class="flex items-center gap-3 p-3 border border-white/10 rounded-lg hover:border-ln-orange/50 transition-colors bg-white/5 group/driver touch-action-manipulation">
                         <span class="text-3xl filter drop-shadow-lg grayscale group-hover/driver:grayscale-0 transition-all">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span>
                         <div class="flex flex-col">
                             <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">Scotland</span>
-                            <span class="text-white font-display font-bold uppercase tracking-wider text-lg group-hover/driver:text-ln-orange transition-colors">Jack Grossart</span>
+                            <span class="text-white font-display font-bold uppercase tracking-wider text-base md:text-lg group-hover/driver:text-ln-orange transition-colors">Jack Grossart</span>
                         </div>
                     </div>
                     
-                    <div class="flex items-center gap-3 p-3 border border-white/10 rounded-lg hover:border-ln-orange/50 transition-colors bg-white/5 group/driver">
+                    <!-- Driver 2 -->
+                    <div class="flex items-center gap-3 p-3 border border-white/10 rounded-lg hover:border-ln-orange/50 transition-colors bg-white/5 group/driver touch-action-manipulation">
                         <span class="text-3xl filter drop-shadow-lg grayscale group-hover/driver:grayscale-0 transition-all">🇫🇮</span>
                         <div class="flex flex-col">
                             <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">Finland</span>
-                            <span class="text-white font-display font-bold uppercase tracking-wider text-lg group-hover/driver:text-ln-orange transition-colors">Topi Lindqvist</span>
+                            <span class="text-white font-display font-bold uppercase tracking-wider text-base md:text-lg group-hover/driver:text-ln-orange transition-colors">Topi Lindqvist</span>
                         </div>
                     </div>
                 </div>
@@ -256,55 +250,59 @@
         </div>
     </section>
 
-    <!-- DUPLICATE SECTION (Requested 1:1 Copy with updates) -->
-    <section class="min-h-screen py-32 px-6 md:px-20 bg-ln-dark relative flex items-center border-t border-white/5">
-        <div class="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-20 items-center">
-            <div class="relative group">
+    <!-- DUPLICATE SECTION (Le Mans) -->
+    <section class="min-h-screen py-20 md:py-32 px-4 md:px-20 bg-ln-dark relative flex items-center border-t border-white/5">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
+            <!-- Mobile: Image first, Text second -->
+            <div class="relative group order-1">
                 <div class="absolute -inset-4 bg-gradient-to-r from-ln-orange to-ln-purple opacity-0 group-hover:opacity-30 rounded-full blur-3xl transition-opacity duration-700"></div>
-                <!-- Updated Image Source -->
                 <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Desktop-Screenshot-2024.01.30-10.34.17.95.png" 
                      alt="Le Mans Circuit" 
-                     class="relative w-full aspect-[4/5] object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-700 ease-out border-b-4 border-ln-orange reveal-img">
+                     class="relative w-full aspect-[16/9] md:aspect-[4/5] object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-700 ease-out border-b-4 border-ln-orange reveal-img">
             </div>
             
-            <div class="flex flex-col justify-center space-y-8">
-                <h2 class="font-display text-5xl md:text-7xl uppercase font-bold leading-[0.9]">
+            <div class="flex flex-col justify-center space-y-6 md:space-y-8 order-2">
+                <h2 class="font-display text-4xl md:text-7xl uppercase font-bold leading-[0.9]">
                     <span class="reveal-text block text-transparent stroke-text hover:text-white transition-colors duration-500">2023</span>
                     <span class="reveal-text block">24H OF LE MANS</span>
                     <span class="reveal-text block gradient-text">P6</span>
                 </h2>
                 
-                <!-- Drivers List (Compact Version) -->
-                <div class="flex flex-col gap-3 mt-2 reveal-text max-w-md">
+                <!-- Drivers List -->
+                <div class="flex flex-col gap-3 mt-2 reveal-text w-full md:max-w-md">
+                    <!-- Driver 1 -->
                     <div class="flex items-center gap-3 p-3 border border-white/10 rounded-lg hover:border-ln-orange/50 transition-colors bg-white/5 group/driver">
                         <span class="text-3xl filter drop-shadow-lg grayscale group-hover/driver:grayscale-0 transition-all">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span>
                         <div class="flex flex-col">
                             <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">Scotland</span>
-                            <span class="text-white font-display font-bold uppercase tracking-wider text-lg group-hover/driver:text-ln-orange transition-colors">Jack Grossart</span>
+                            <span class="text-white font-display font-bold uppercase tracking-wider text-base md:text-lg group-hover/driver:text-ln-orange transition-colors">Jack Grossart</span>
                         </div>
                     </div>
                     
+                    <!-- Driver 2 -->
                     <div class="flex items-center gap-3 p-3 border border-white/10 rounded-lg hover:border-ln-orange/50 transition-colors bg-white/5 group/driver">
                         <span class="text-3xl filter drop-shadow-lg grayscale group-hover/driver:grayscale-0 transition-all">🇫🇮</span>
                         <div class="flex flex-col">
                             <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">Finland</span>
-                            <span class="text-white font-display font-bold uppercase tracking-wider text-lg group-hover/driver:text-ln-orange transition-colors">Topi Lindqvist</span>
+                            <span class="text-white font-display font-bold uppercase tracking-wider text-base md:text-lg group-hover/driver:text-ln-orange transition-colors">Topi Lindqvist</span>
                         </div>
                     </div>
 
+                    <!-- Driver 3 -->
                     <div class="flex items-center gap-3 p-3 border border-white/10 rounded-lg hover:border-ln-orange/50 transition-colors bg-white/5 group/driver">
                         <span class="text-3xl filter drop-shadow-lg grayscale group-hover/driver:grayscale-0 transition-all">🇺🇸</span>
                         <div class="flex flex-col">
                             <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">USA</span>
-                            <span class="text-white font-display font-bold uppercase tracking-wider text-lg group-hover/driver:text-ln-orange transition-colors">Henry Moore</span>
+                            <span class="text-white font-display font-bold uppercase tracking-wider text-base md:text-lg group-hover/driver:text-ln-orange transition-colors">Henry Moore</span>
                         </div>
                     </div>
 
+                    <!-- Driver 4 -->
                     <div class="flex items-center gap-3 p-3 border border-white/10 rounded-lg hover:border-ln-orange/50 transition-colors bg-white/5 group/driver">
                         <span class="text-3xl filter drop-shadow-lg grayscale group-hover/driver:grayscale-0 transition-all">🇬🇧</span>
                         <div class="flex flex-col">
                             <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">UK</span>
-                            <span class="text-white font-display font-bold uppercase tracking-wider text-lg group-hover/driver:text-ln-orange transition-colors">Kai Verona</span>
+                            <span class="text-white font-display font-bold uppercase tracking-wider text-base md:text-lg group-hover/driver:text-ln-orange transition-colors">Kai Verona</span>
                         </div>
                     </div>
                 </div>
@@ -313,38 +311,100 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-black text-white pt-32 pb-10 border-t border-gray-900">
-        <div class="container mx-auto px-6 flex flex-col items-center text-center">
+    <footer class="bg-black text-white pt-20 md:pt-32 pb-10 border-t border-gray-900">
+        <div class="container mx-auto px-6">
             
-            <div class="grid grid-cols-2 gap-8 md:gap-20 mt-20 w-full max-w-4xl text-left border-t border-white/10 pt-12">
-                <div class="flex flex-col gap-4">
-                    <h5 class="text-gray-500 uppercase text-xs tracking-widest font-bold">Platform</h5>
-                    <a href="#" class="hover:text-ln-orange transition-colors">iRacing</a>
-                    <a href="#" class="hover:text-ln-orange transition-colors">Assetto Corsa</a>
-                    <a href="#" class="hover:text-ln-orange transition-colors">Le Mans Ultimate</a>
+            <!-- Main Content: Flex on Desktop, Stack on Mobile -->
+            <div class="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-0">
+                
+                <!-- Brand Column -->
+                <div class="flex flex-col gap-6 max-w-xs">
+                    <div class="font-display font-bold text-2xl tracking-widest uppercase flex items-center gap-2">
+                        Team Fifty
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                        Fernando is faster than you
+                    </p>
                 </div>
-                <div class="flex flex-col gap-4">
-                    <h5 class="text-gray-500 uppercase text-xs tracking-widest font-bold">Team</h5>
-                    <a href="#" class="hover:text-ln-orange transition-colors">Roster</a>
-                    <a href="#" class="hover:text-ln-orange transition-colors">Merch</a>
+
+                <!-- Links Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-10 md:gap-20 w-full md:w-auto">
+                    <!-- Platform -->
+                    <div class="flex flex-col gap-4">
+                        <h5 class="text-gray-500 uppercase text-[10px] tracking-widest font-bold text-white/40">Platform</h5>
+                        <a href="https://www.iracing.com/" target="_blank" class="hover:text-ln-orange transition-colors text-sm text-gray-300">iRacing</a>
+                        <a href="https://assettocorsa.gg/" target="_blank" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Assetto Corsa</a>
+                        <a href="https://lemansultimate.com/" target="_blank" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Le Mans Ultimate</a>
+                    </div>
+                    
+                    <!-- Team -->
+                    <div class="flex flex-col gap-4">
+                        <h5 class="text-gray-500 uppercase text-[10px] tracking-widest font-bold text-white/40">Team</h5>
+                        <a href="roster.html" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Roster</a>
+                        <a href="schedule.html" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Schedule</a>
+                        <a href="results.html" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Results</a>
+                    </div>
+
+                    <!-- Connect -->
+                    <div class="flex flex-col gap-4">
+                        <h5 class="text-gray-500 uppercase text-[10px] tracking-widest font-bold text-white/40">Connect</h5>
+                        <a href="#" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Twitch</a>
+                        <a href="#" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Instagram</a>
+                        <a href="#" class="hover:text-ln-orange transition-colors text-sm text-gray-300">YouTube</a>
+                    </div>
                 </div>
             </div>
 
-            <div class="mt-32 text-gray-600 text-xs uppercase tracking-widest flex justify-between w-full">
-                <span>© 2026 Team Fifty</span>
-                <span>Fernando is faster than you</span>
+            <!-- Bottom Bar -->
+            <div class="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-600 text-[10px] uppercase tracking-widest">
+                <span>© 2026 Team Fifty. All Rights Reserved.</span>
+                <span class="hidden md:block opacity-20">|</span>
+                <span class="opacity-50 hover:opacity-100 transition-opacity">Fernando is faster than you</span>
             </div>
         </div>
     </footer>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            
+            // --- Mobile Menu Logic ---
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openMenuBtn = document.getElementById('open-menu-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            function toggleMenu(isOpen) {
+                if(isOpen) {
+                    mobileMenu.classList.remove('translate-x-full');
+                    document.body.style.overflow = 'hidden'; // Stop background scrolling
+                    
+                    // Animate links in
+                    gsap.fromTo(mobileLinks, 
+                        {x: 50, opacity: 0},
+                        {x: 0, opacity: 1, stagger: 0.1, duration: 0.5, delay: 0.2, ease: "power2.out"}
+                    );
+                } else {
+                    mobileMenu.classList.add('translate-x-full');
+                    document.body.style.overflow = ''; 
+                }
+            }
+
+            openMenuBtn.addEventListener('click', () => toggleMenu(true));
+            closeMenuBtn.addEventListener('click', () => toggleMenu(false));
+            
+            // Close menu when a link is clicked
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => toggleMenu(false));
+            });
+
+            // --- Existing Logic ---
+
             // Check if Lenis loaded
             if (typeof Lenis === 'undefined') {
                 console.error("Lenis smooth scroll library failed to load.");
-                document.querySelector('.loader').style.display = 'none'; // Hide loader so site is usable
+                document.querySelector('.loader').style.display = 'none';
             } else {
-                // 1. Initialize Lenis for Smooth Scroll
+                // Initialize Lenis
                 const lenis = new Lenis({
                     duration: 1.2,
                     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -360,13 +420,12 @@
                 requestAnimationFrame(raf);
             }
 
-            // 2. Register GSAP Plugins
+            // Register GSAP
             gsap.registerPlugin(ScrollTrigger);
 
-            // 3. Loader Animation
+            // Loader Animation
             const tl = gsap.timeline();
             
-            // Updated selector from ".loader h1" to ".loader img" to animate the logo
             tl.to(".loader img", {
                 duration: 1.5,
                 y: -50,
@@ -380,7 +439,6 @@
                 transformOrigin: "top",
                 ease: "expo.inOut"
             }, "-=0.5")
-            // REFINED TEXT ANIMATION with Blur effect
             .from(".hero-anim", {
                 y: 50,
                 opacity: 0,
@@ -390,7 +448,7 @@
                 ease: "power3.out"
             }, "-=0.6");
 
-            // 4. Hero Parallax
+            // Hero Parallax
             gsap.to(".hero-img", {
                 scrollTrigger: {
                     trigger: "header",
@@ -402,7 +460,7 @@
                 scale: 1.1
             });
 
-            // 5. Marquee Animation
+            // Marquee Animation
             gsap.to(".marquee-content", {
                 xPercent: -100,
                 repeat: -1,
@@ -410,83 +468,48 @@
                 ease: "linear"
             });
 
-            // 6. Text Reveals in Bio Section
+            // Text Reveals
             const revealElements = document.querySelectorAll(".reveal-text");
             revealElements.forEach(el => {
                 gsap.from(el, {
                     scrollTrigger: {
                         trigger: el,
-                        start: "top 85%",
+                        start: "top 90%", // Trigger slightly earlier on mobile
                     },
-                    y: 50,
+                    y: 40, // Reduced movement for mobile
                     opacity: 0,
                     duration: 1.2,
                     ease: "power3.out"
                 });
             });
 
-            // 7. Image Reveal in Bio
+            // Image Reveal
             gsap.from(".reveal-img", {
                 scrollTrigger: {
                     trigger: ".reveal-img",
-                    start: "top 80%",
-                    scale: 0.8,
+                    start: "top 85%",
+                    scale: 0.9, // Less scaling on mobile to prevent overflow
                     opacity: 0,
                     duration: 1.5,
                     ease: "expo.out"
                 }
             });
 
-            // 8. Bento Grid Stagger (Kept for compatibility if re-added, though section removed)
-            gsap.from(".bento-card", {
-                scrollTrigger: {
-                    trigger: ".bento-card",
-                    start: "top 80%",
-                },
-                y: 100,
-                opacity: 0,
-                duration: 1,
-                stagger: 0.2,
-                ease: "power2.out"
-            });
+            // Custom Cursor (GSAP)
+            // Only attach listeners if the device supports hover (desktop)
+            if (window.matchMedia("(hover: hover)").matches) {
+                const cursor = document.querySelector('.cursor-glow');
+                if(cursor) {
+                    gsap.set(cursor, {xPercent: -50, yPercent: -50, opacity: 1});
+                    
+                    let xTo = gsap.quickTo(cursor, "x", {duration: 0.6, ease: "power3"});
+                    let yTo = gsap.quickTo(cursor, "y", {duration: 0.6, ease: "power3"});
 
-            // 9. Parallax for Gallery Images
-            document.querySelectorAll(".parallax-img").forEach(img => {
-                gsap.to(img, {
-                    scrollTrigger: {
-                        trigger: img.parentElement,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: true
-                    },
-                    y: -50,
-                    scale: 1.15
-                });
-            });
-
-            // 10. Horizontal Text Parallax
-            gsap.to(".parallax-bg-text", {
-                scrollTrigger: {
-                    trigger: ".parallax-bg-text",
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: 1
-                },
-                x: -200
-            });
-
-            // 11. Custom Cursor Logic
-            const cursor = document.querySelector('.cursor-glow');
-            if(cursor) {
-                gsap.set(cursor, {xPercent: -50, yPercent: -50, opacity: 1});
-                
-                let xTo = gsap.quickTo(cursor, "x", {duration: 0.6, ease: "power3"});
-                let yTo = gsap.quickTo(cursor, "y", {duration: 0.6, ease: "power3"});
-
-                window.addEventListener("mousemove", e => {
-                    xTo(e.clientX);
-                    yTo(e.clientY);
-                });
+                    window.addEventListener("mousemove", e => {
+                        xTo(e.clientX);
+                        yTo(e.clientY);
+                    });
+                }
             }
         });
     </script>
