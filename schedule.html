@@ -154,8 +154,8 @@
     <!-- Header / Hero Section -->
     <header class="relative h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-white/5">
         <div class="absolute inset-0 z-0 opacity-20">
-            <!-- Generic Track Background -->
-            <img src="https://images.unsplash.com/photo-1599474924187-334a405be6b3?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover hero-img filter grayscale blur-sm" alt="">
+            <!-- Updated Hero Image -->
+            <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Fuji-1.png" class="w-full h-full object-cover hero-img filter grayscale blur-sm" alt="">
         </div>
         
         <div class="relative z-10 text-center flex flex-col items-center px-4">
@@ -182,8 +182,15 @@
             <div class="flex flex-col gap-4">
 
                 <!-- Event 1: Sebring 12H -->
-                <div class="schedule-row reveal-card relative bg-white/10 border-l-2 border-white/20 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group rounded-r-lg">
-                    <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12 w-full">
+                <div class="schedule-row reveal-card relative bg-white/10 border-l-2 border-white/20 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group rounded-r-lg overflow-hidden">
+                    
+                    <!-- Background Image Block -->
+                    <div class="absolute inset-0 z-0">
+                        <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Sebring-1.png" alt="Sebring Background" class="w-full h-full object-cover opacity-20 group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-r from-ln-black via-ln-black/80 to-transparent"></div>
+                    </div>
+
+                    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12 w-full">
                         <!-- Date -->
                         <div class="flex flex-col min-w-[80px]">
                             <span class="text-3xl font-display font-bold text-white group-hover:text-ln-orange transition-colors">28</span>
@@ -205,11 +212,23 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Action -->
+                    <div class="relative z-10 mt-4 md:mt-0 opacity-100">
+                        <span class="text-[10px] uppercase font-bold tracking-widest border border-white/20 px-4 py-2 rounded-full hover:border-ln-orange hover:text-ln-orange transition-all cursor-pointer">Upcoming</span>
+                    </div>
                 </div>
 
                 <!-- Event 2: Spa 24H -->
-                <div class="schedule-row reveal-card relative bg-white/10 border-l-2 border-white/20 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group rounded-r-lg">
-                    <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12 w-full">
+                <div class="schedule-row reveal-card relative bg-white/10 border-l-2 border-white/20 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group rounded-r-lg overflow-hidden">
+                    
+                    <!-- Background Image Block -->
+                    <div class="absolute inset-0 z-0">
+                        <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Spa-6.png" alt="Spa Background" class="w-full h-full object-cover opacity-20 group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-r from-ln-black via-ln-black/80 to-transparent"></div>
+                    </div>
+
+                    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12 w-full">
                         <div class="flex flex-col min-w-[80px]">
                             <span class="text-3xl font-display font-bold text-white group-hover:text-ln-orange transition-colors">11</span>
                             <span class="text-xs uppercase tracking-widest text-gray-300 font-bold">July</span>
@@ -229,11 +248,21 @@
                             </div>
                         </div>
                     </div>
+                    <div class="relative z-10 mt-4 md:mt-0 opacity-100">
+                        <span class="text-[10px] uppercase font-bold tracking-widest border border-white/20 px-4 py-2 rounded-full hover:border-ln-orange hover:text-ln-orange transition-all cursor-pointer">Upcoming</span>
+                    </div>
                 </div>
 
                 <!-- Event 3: Petit Le Mans -->
-                <div class="schedule-row reveal-card relative bg-white/10 border-l-2 border-white/20 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group rounded-r-lg">
-                    <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12 w-full">
+                <div class="schedule-row reveal-card relative bg-white/10 border-l-2 border-white/20 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group rounded-r-lg overflow-hidden">
+                    
+                    <!-- Background Image Block -->
+                    <div class="absolute inset-0 z-0">
+                        <img src="https://cdn.shopify.com/s/files/1/0635/7709/6450/files/petit-le-mans-25-iracing.jpg?v=1759473079" alt="Petit Le Mans Background" class="w-full h-full object-cover opacity-20 group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-r from-ln-black via-ln-black/80 to-transparent"></div>
+                    </div>
+
+                    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12 w-full">
                         <div class="flex flex-col min-w-[80px]">
                             <span class="text-3xl font-display font-bold text-white group-hover:text-ln-orange transition-colors">26</span>
                             <span class="text-xs uppercase tracking-widest text-gray-300 font-bold">Sept</span>
@@ -252,6 +281,9 @@
                                 <span class="uppercase tracking-wider text-ln-orange">Hypercar, LMP2, GT3</span>
                             </div>
                         </div>
+                    </div>
+                    <div class="relative z-10 mt-4 md:mt-0 opacity-100">
+                        <span class="text-[10px] uppercase font-bold tracking-widest border border-white/20 px-4 py-2 rounded-full hover:border-ln-orange hover:text-ln-orange transition-all cursor-pointer">Upcoming</span>
                     </div>
                 </div>
 
