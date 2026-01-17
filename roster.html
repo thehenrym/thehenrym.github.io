@@ -110,8 +110,8 @@
     <!-- Cursor Glow Element -->
     <div class="cursor-glow"></div>
 
-    <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 bg-ln-black z-[60] transform translate-x-full flex flex-col justify-center items-center gap-8">
+    <!-- Mobile Menu Overlay - Added inline style to prevent FOUC (Flash of Unstyled Content) -->
+    <div id="mobile-menu" style="transform: translateX(100%);" class="fixed inset-0 bg-ln-black z-[60] transform translate-x-full flex flex-col justify-center items-center gap-8">
         <button id="close-menu-btn" class="absolute top-6 right-6 text-white uppercase font-bold text-xs tracking-widest p-4">Close</button>
         <a href="index.html" class="mobile-link text-3xl font-display font-bold uppercase text-transparent stroke-text hover:text-white transition-all">Home</a>
         <a href="roster.html" class="mobile-link text-3xl font-display font-bold uppercase text-white transition-all">Roster</a>
@@ -149,7 +149,6 @@
         </div>
         
         <div class="relative z-10 text-center flex flex-col items-center px-4">
-            <!-- Removed "The Talent" text -->
             <h1 class="font-display hero-title leading-[0.85] font-bold uppercase mix-blend-overlay hero-anim">
                 <span class="text-white opacity-90">Roster</span>
             </h1>
@@ -347,6 +346,10 @@
                 if(isOpen) {
                     mobileMenu.classList.remove('translate-x-full');
                     document.body.style.overflow = 'hidden'; 
+                    
+                    // Reset transform style from inline to allow class based animation if needed
+                    mobileMenu.style.transform = '';
+
                     gsap.fromTo(mobileLinks, 
                         {x: 50, opacity: 0},
                         {x: 0, opacity: 1, stagger: 0.1, duration: 0.5, delay: 0.2, ease: "power2.out"}
