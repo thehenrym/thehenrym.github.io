@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Fifty | Results</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ln-black': '#0a0a0a',
+                        'ln-dark': '#111112',
+                        'ln-orange': '#FE5733',
+                        'ln-purple': '#9F62EA',
+                        'ln-gray': '#2a2a2a',
+                    },
+                    fontFamily: {
+                        'display': ['"Syncopate"', 'sans-serif'],
+                        'body': ['"Chakra Petch"', 'sans-serif'],
+                    },
+                    screens: {
+                        'xs': '375px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: white;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #FE5733, #9F62EA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #FE5733 0%, #9F62EA 100%);
+        }
+        
+        .stroke-text {
+            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+            color: transparent;
+        }
+
+        /* Cursor Effect */
+        @media (hover: hover) {
+            .cursor-glow {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 400px;
+                height: 400px;
+                background: radial-gradient(circle, rgba(254,87,51,0.15) 0%, rgba(159,98,234,0.1) 40%, transparent 70%);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9998;
+                mix-blend-mode: screen;
+                filter: blur(30px);
+                opacity: 0;
+                transform: translate(-50%, -50%);
+            }
+        }
+        
+        @media (hover: none) {
+            .cursor-glow { display: none; }
+        }
+
+        /* Mobile Menu Transitions */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 8rem);
+        }
+        
+    </style>
+</head>
+<body class="bg-ln-black text-white font-body selection:bg-ln-orange selection:text-black">
+
+    <!-- Cursor Glow Element -->
+    <div class="cursor-glow"></div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" style="transform: translateX(100%);" class="fixed inset-0 bg-ln-black z-[60] transform translate-x-full flex flex-col justify-center items-center gap-8">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-white uppercase font-bold text-xs tracking-widest p-4">Close</button>
+        <a href="index.html" class="mobile-link text-3xl font-display font-bold uppercase text-transparent stroke-text hover:text-white transition-all">Home</a>
+        <a href="roster.html" class="mobile-link text-3xl font-display font-bold uppercase text-transparent stroke-text hover:text-white transition-all">Roster</a>
+        <a href="schedule.html" class="mobile-link text-3xl font-display font-bold uppercase text-transparent stroke-text hover:text-white transition-all">Schedule</a>
+        <a href="results.html" class="mobile-link text-3xl font-display font-bold uppercase text-white transition-all">Results</a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-4 md:px-6 py-6 flex justify-between items-center mix-blend-difference text-white">
+        <!-- Nav Logo -->
+        <a href="index.html" class="font-display font-bold text-xl tracking-widest cursor-pointer">
+            <img src="https://cdn.discordapp.com/attachments/1323758532432236638/1461642517316501638/fiddy.png?ex=696b4c2c&is=6969faac&hm=be3b984545ca64a74b85e6efd936d77ce613365be742f7d9bed4304b6aa38ef9&" 
+                 alt="Team Fifty" 
+                 class="h-14 md:h-20 w-auto object-contain">
+        </a>
+        
+        <!-- Desktop Nav Links -->
+        <div class="hidden md:flex gap-8 text-sm uppercase tracking-widest font-bold items-center absolute left-1/2 -translate-x-1/2">
+            <a href="index.html" class="hover:text-ln-orange transition-colors">Home</a>
+            <a href="roster.html" class="hover:text-ln-orange transition-colors">Roster</a>
+            <a href="schedule.html" class="hover:text-ln-orange transition-colors">Schedule</a>
+            <a href="results.html" class="text-ln-orange transition-colors">Results</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="open-menu-btn" class="md:hidden bg-white text-black px-5 py-2 uppercase font-bold text-[10px] tracking-widest hover:bg-gradient-to-r hover:from-ln-orange hover:to-ln-purple transition-all hover:text-white rounded-sm">
+            Menu
+        </button>
+    </nav>
+
+    <!-- Header / Hero Section -->
+    <header class="relative h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-white/5">
+        <div class="absolute inset-0 z-0 opacity-20">
+            <!-- Different Hero Image for Variety -->
+            <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Monza-21.png" class="w-full h-full object-cover hero-img filter grayscale blur-sm" alt="">
+        </div>
+        
+        <div class="relative z-10 text-center flex flex-col items-center px-4">
+            <p class="gradient-text uppercase tracking-[0.3em] text-xs font-bold mb-4 hero-anim">Our History</p>
+            <h1 class="font-display hero-title leading-[0.85] font-bold uppercase mix-blend-overlay hero-anim">
+                Race<br>
+                <span class="text-white opacity-90">Results</span>
+            </h1>
+        </div>
+    </header>
+
+    <!-- Results Grid Section -->
+    <section class="min-h-screen py-20 px-4 md:px-10 bg-ln-dark relative">
+        <div class="container mx-auto max-w-7xl">
+            
+            <!-- Category Title removed -->
+
+            <!-- Grid Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                
+                <!-- 1. Daytona (Feb 2023) -->
+                <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
+                    <!-- Top Info Tags -->
+                    <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Feb 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Ligier JS P320</span>
+                        <span class="text-[10px] text-purple-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-purple-500/30 backdrop-blur-md">LMP3</span>
+                    </div>
+                    <!-- Image -->
+                    <div class="absolute inset-0 z-0 bg-gray-900">
+                        <img src="https://members-assets.iracing.com/public/track-maps-screenshots/120_screenshots/05.jpg" alt="Daytona Speedway" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
+                    </div>
+                    <!-- Content -->
+                    <div class="relative z-10 p-6 md:p-8">
+                        <h2 class="font-display text-2xl md:text-3xl font-bold uppercase leading-none mb-1 text-white shadow-black drop-shadow-md">Daytona 24H</h2>
+                        <div class="flex flex-col mb-4">
+                            <span class="text-3xl md:text-4xl font-bold uppercase gradient-text drop-shadow-lg leading-none">P3 Class</span>
+                            <span class="text-sm font-bold uppercase text-gray-300 drop-shadow-lg mt-1">P14 Overall</span>
+                        </div>
+                        <div class="border-t border-white/20 pt-4">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇳🇱 J. Genaro</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇺🇸 H. Moore</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇪🇸 G. Rico</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇵🇱 K. Grabiec</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Spa 12H (May 2023) -->
+                <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
+                    <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">May 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Ferrari 296 GT3</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                    </div>
+                    <div class="absolute inset-0 z-0 bg-gray-900">
+                        <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Spa-6.png" alt="Spa Francorchamps" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-6 md:p-8">
+                        <h2 class="font-display text-2xl md:text-3xl font-bold uppercase leading-none mb-1 text-white shadow-black drop-shadow-md">Spa 12H</h2>
+                        <div class="text-3xl md:text-4xl font-bold uppercase gradient-text mb-4 drop-shadow-lg">P26 Overall</div>
+                        <div class="border-t border-white/20 pt-4">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇺🇸 H. Moore</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇪🇸 G. Rico</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Silverstone 500 (May 27, 2023) - NEW -->
+                <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
+                    <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">May 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Porsche 992 GT3</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                    </div>
+                    <div class="absolute inset-0 z-0 bg-gray-900">
+                        <img src="https://cdn.thesimgrid.com/jhfulqaf9fkpba2l1wf9nimtacpm" alt="Silverstone" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-6 md:p-8">
+                        <h2 class="font-display text-2xl md:text-3xl font-bold uppercase leading-none mb-1 text-white shadow-black drop-shadow-md">Silverstone 500</h2>
+                        <div class="text-3xl md:text-4xl font-bold uppercase gradient-text mb-4 drop-shadow-lg">P6 Overall</div>
+                        <div class="border-t border-white/20 pt-4">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 A. Chisholm</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 5. Silverstone 24H (Jul 15, 2023) - IMAGE UPDATED -->
+                <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
+                    <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Jul 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">BMW M4 GT3</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                    </div>
+                    <div class="absolute inset-0 z-0 bg-gray-900">
+                        <!-- Updated Image -->
+                        <img src="https://lemansultimate.com/wp-content/uploads/2025/09/le-mans-ultimate.exe-Screenshot-2025.09.11-15.36.14.50-scaled.png" alt="Silverstone" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-6 md:p-8">
+                        <h2 class="font-display text-2xl md:text-3xl font-bold uppercase leading-none mb-1 text-white shadow-black drop-shadow-md">Silverstone 24H</h2>
+                        <div class="text-3xl md:text-4xl font-bold uppercase gradient-text mb-4 drop-shadow-lg">P17 Overall</div>
+                        <div class="border-t border-white/20 pt-4">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇫🇮 T. Lindqvist</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇪🇸 G. Rico</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 K. Verona</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 A. Modan</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. 24 Hours of Spa (Jul 2023) - EXISTING -->
+                <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
+                    <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Jul 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">BMW M4 GT3 EVO</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                    </div>
+                    <div class="absolute inset-0 z-0 bg-gray-900">
+                        <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Spa-6.png" alt="Spa Francorchamps" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-6 md:p-8">
+                        <h2 class="font-display text-2xl md:text-3xl font-bold uppercase leading-none mb-1 text-white shadow-black drop-shadow-md">24H of Spa</h2>
+                        <div class="text-3xl md:text-4xl font-bold uppercase gradient-text mb-4 drop-shadow-lg">P16 Overall</div>
+                        <div class="border-t border-white/20 pt-4">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇺🇸 H. Moore</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇫🇮 T. Lindqvist</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇪🇸 G. Rico</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Watkins Glen 12H (Aug 6, 2023) - EXISTING -->
+                <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
+                    <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Aug 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">McLaren 720S Evo</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                    </div>
+                    <div class="absolute inset-0 z-0 bg-gray-900">
+                        <img src="https://www.thesimgrid.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MjE5OTIsInB1ciI6ImJsb2JfaWQifX0=--cb05b8dddc64c8ba5e7f883d01663b71d70b8a88/Track=Watkins%20Glen.jpg" alt="Watkins Glen" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-6 md:p-8">
+                        <h2 class="font-display text-2xl md:text-3xl font-bold uppercase leading-none mb-1 text-white shadow-black drop-shadow-md">Watkins 12H</h2>
+                        <div class="text-3xl md:text-4xl font-bold uppercase gradient-text mb-4 drop-shadow-lg">P16 Overall</div>
+                        <div class="border-t border-white/20 pt-4">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 A. Modan</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇳🇱 D. Laurijsse</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇺🇸 H. Moore</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇹🇷 E. Akin</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. 24H Le Mans (Aug 6, 2023) - NEW ADDITION -->
+                <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
+                    <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Aug 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Cadillac V-Series.R</span>
+                        <span class="text-[10px] text-red-500 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-red-600 backdrop-blur-md">Hypercar</span>
+                    </div>
+                    <div class="absolute inset-0 z-0 bg-gray-900">
+                        <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Desktop-Screenshot-2024.01.30-10.34.17.95.png" alt="Le Mans" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-6 md:p-8">
+                        <h2 class="font-display text-2xl md:text-3xl font-bold uppercase leading-none mb-1 text-white shadow-black drop-shadow-md">24H Le Mans</h2>
+                        <div class="text-3xl md:text-4xl font-bold uppercase gradient-text mb-4 drop-shadow-lg">P6 Overall</div>
+                        <div class="border-t border-white/20 pt-4">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇺🇸 H. Moore</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇫🇮 T. Lindqvist</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 K. Verona</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. Bathurst 6HR (Oct 14, 2023) - EXISTING -->
+                <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
+                    <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Oct 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">BMW M4 GT3</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                    </div>
+                    <div class="absolute inset-0 z-0 bg-gray-900">
+                        <img src="https://www.thesimgrid.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NzU3LCJwdXIiOiJibG9iX2lkIn19--132ca2c7d7a7f9798be01948307098ef7587f566/banner-bathurst.jpg" alt="Bathurst" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-6 md:p-8">
+                        <h2 class="font-display text-2xl md:text-3xl font-bold uppercase leading-none mb-1 text-white shadow-black drop-shadow-md">Bathurst 6H</h2>
+                        <div class="text-3xl md:text-4xl font-bold uppercase gradient-text mb-4 drop-shadow-lg">P6 Overall</div>
+                        <div class="border-t border-white/20 pt-4">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇫🇮 T. Lindqvist</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 K. Verona</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10. Fuji (Nov 2023) - EXISTING -->
+                <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
+                    <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Nov 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">BMW M4 GT3 EVO</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                    </div>
+                    <div class="absolute inset-0 z-0 bg-gray-900">
+                        <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Fuji-6.png" alt="Fuji Speedway" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-6 md:p-8">
+                        <h2 class="font-display text-2xl md:text-3xl font-bold uppercase leading-none mb-1 text-white shadow-black drop-shadow-md">Fuji 8HR</h2>
+                        <div class="text-3xl md:text-4xl font-bold uppercase gradient-text mb-4 drop-shadow-lg">P1 Overall</div>
+                        <div class="border-t border-white/20 pt-4">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇫🇮 T. Lindqvist</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 11. Spa 6H (Jun 2024) - EXISTING -->
+                <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
+                    <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Jun 2024</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">McLaren 720S Evo</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                    </div>
+                    <div class="absolute inset-0 z-0 bg-gray-900">
+                        <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Spa-6.png" alt="Spa" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-6 md:p-8">
+                        <h2 class="font-display text-2xl md:text-3xl font-bold uppercase leading-none mb-1 text-white shadow-black drop-shadow-md">Spa 6H</h2>
+                        <div class="text-3xl md:text-4xl font-bold uppercase gradient-text mb-4 drop-shadow-lg">P16 Overall</div>
+                        <div class="border-t border-white/20 pt-4">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 K. Verona</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇷🇸 S. Zoranovic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12. 24H Nordschleife (Jul 2024) - EXISTING -->
+                <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
+                    <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Jul 2024</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">BMW M4 GT3</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                    </div>
+                    <div class="absolute inset-0 z-0 bg-gray-900">
+                        <img src="https://cdn.thesimgrid.com/d6kj95rg6vnbak1ux8752ydeocap" alt="Nurburgring" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-6 md:p-8">
+                        <h2 class="font-display text-2xl md:text-3xl font-bold uppercase leading-none mb-1 text-white shadow-black drop-shadow-md">24H Nords</h2>
+                        <div class="text-3xl md:text-4xl font-bold uppercase gradient-text mb-4 drop-shadow-lg">P10 Overall</div>
+                        <div class="border-t border-white/20 pt-4">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 K. Verona</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇷🇸 S. Zoranovic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Same as Index) -->
+    <footer class="bg-black text-white pt-20 md:pt-32 pb-10 border-t border-gray-900">
+        <div class="container mx-auto px-6">
+            
+            <div class="flex flex-col md:flex-row justify-start items-start">
+                
+                <!-- Links Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-10 md:gap-20 w-full md:w-auto text-left">
+                    <!-- Platform -->
+                    <div class="flex flex-col gap-4">
+                        <h5 class="text-gray-500 uppercase text-[10px] tracking-widest font-bold text-white/40">Platform</h5>
+                        <a href="https://www.iracing.com/" target="_blank" class="hover:text-ln-orange transition-colors text-sm text-gray-300">iRacing</a>
+                        <a href="https://assettocorsa.gg/" target="_blank" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Assetto Corsa</a>
+                        <a href="https://lemansultimate.com/" target="_blank" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Le Mans Ultimate</a>
+                    </div>
+                    
+                    <!-- Team -->
+                    <div class="flex flex-col gap-4">
+                        <h5 class="text-gray-500 uppercase text-[10px] tracking-widest font-bold text-white/40">Team</h5>
+                        <a href="roster.html" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Roster</a>
+                        <a href="schedule.html" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Schedule</a>
+                        <a href="results.html" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Results</a>
+                    </div>
+
+                    <!-- Connect -->
+                    <div class="flex flex-col gap-4">
+                        <h5 class="text-gray-500 uppercase text-[10px] tracking-widest font-bold text-white/40">Connect</h5>
+                        <a href="#" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Twitch</a>
+                        <a href="https://www.instagram.com/fiftyracing/" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Instagram</a>
+                        <a href="#" class="hover:text-ln-orange transition-colors text-sm text-gray-300">YouTube</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-600 text-[10px] uppercase tracking-widest">
+                <span>© 2026 Team Fifty. All Rights Reserved.</span>
+                <span class="hidden md:block opacity-20">|</span>
+                <span class="opacity-50 hover:opacity-100 transition-opacity">Fernando is faster than you</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // --- Mobile Menu Logic ---
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openMenuBtn = document.getElementById('open-menu-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            function toggleMenu(isOpen) {
+                if(isOpen) {
+                    mobileMenu.classList.remove('translate-x-full');
+                    document.body.style.overflow = 'hidden'; 
+                    mobileMenu.style.transform = '';
+
+                    gsap.fromTo(mobileLinks, 
+                        {x: 50, opacity: 0},
+                        {x: 0, opacity: 1, stagger: 0.1, duration: 0.5, delay: 0.2, ease: "power2.out"}
+                    );
+                } else {
+                    mobileMenu.classList.add('translate-x-full');
+                    document.body.style.overflow = ''; 
+                }
+            }
+
+            openMenuBtn.addEventListener('click', () => toggleMenu(true));
+            closeMenuBtn.addEventListener('click', () => toggleMenu(false));
+            mobileLinks.forEach(link => link.addEventListener('click', () => toggleMenu(false)));
+
+            // --- Init Tools ---
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    smooth: true,
+                });
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            }
+
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero Animation
+            gsap.from(".hero-anim", {
+                y: 50,
+                opacity: 0,
+                filter: "blur(10px)",
+                duration: 1.8,
+                stagger: 0.15,
+                ease: "power3.out",
+                delay: 0.2
+            });
+
+            // Hero Parallax
+            gsap.to(".hero-img", {
+                scrollTrigger: {
+                    trigger: "header",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                },
+                y: 100,
+                scale: 1.1
+            });
+
+            // Custom Cursor
+            if (window.matchMedia("(hover: hover)").matches) {
+                const cursor = document.querySelector('.cursor-glow');
+                if(cursor) {
+                    gsap.set(cursor, {xPercent: -50, yPercent: -50, opacity: 1});
+                    let xTo = gsap.quickTo(cursor, "x", {duration: 0.6, ease: "power3"});
+                    let yTo = gsap.quickTo(cursor, "y", {duration: 0.6, ease: "power3"});
+                    window.addEventListener("mousemove", e => {
+                        xTo(e.clientX);
+                        yTo(e.clientY);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
