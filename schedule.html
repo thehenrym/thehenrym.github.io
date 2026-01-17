@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Fifty | Schedule</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ln-black': '#0a0a0a',
+                        'ln-dark': '#111112',
+                        'ln-orange': '#FE5733',
+                        'ln-purple': '#9F62EA',
+                        'ln-gray': '#2a2a2a',
+                    },
+                    fontFamily: {
+                        'display': ['"Syncopate"', 'sans-serif'],
+                        'body': ['"Chakra Petch"', 'sans-serif'],
+                    },
+                    screens: {
+                        'xs': '375px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: white;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #FE5733, #9F62EA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #FE5733 0%, #9F62EA 100%);
+        }
+        
+        .stroke-text {
+            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+            color: transparent;
+        }
+
+        /* Cursor Effect */
+        @media (hover: hover) {
+            .cursor-glow {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 400px;
+                height: 400px;
+                background: radial-gradient(circle, rgba(254,87,51,0.15) 0%, rgba(159,98,234,0.1) 40%, transparent 70%);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9998;
+                mix-blend-mode: screen;
+                filter: blur(30px);
+                opacity: 0;
+                transform: translate(-50%, -50%);
+            }
+        }
+        
+        @media (hover: none) {
+            .cursor-glow { display: none; }
+        }
+
+        /* Mobile Menu Transitions */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 8rem);
+        }
+
+        /* Schedule Row Hover */
+        .schedule-row {
+            transition: all 0.3s ease;
+        }
+        .schedule-row:hover {
+            background-color: rgba(255, 255, 255, 0.08); /* Increased hover visibility */
+            border-left-color: #FE5733;
+        }
+    </style>
+</head>
+<body class="bg-ln-black text-white font-body selection:bg-ln-orange selection:text-black">
+
+    <!-- Cursor Glow Element -->
+    <div class="cursor-glow"></div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" style="transform: translateX(100%);" class="fixed inset-0 bg-ln-black z-[60] transform translate-x-full flex flex-col justify-center items-center gap-8">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-white uppercase font-bold text-xs tracking-widest p-4">Close</button>
+        <a href="index.html" class="mobile-link text-3xl font-display font-bold uppercase text-transparent stroke-text hover:text-white transition-all">Home</a>
+        <a href="roster.html" class="mobile-link text-3xl font-display font-bold uppercase text-transparent stroke-text hover:text-white transition-all">Roster</a>
+        <a href="schedule.html" class="mobile-link text-3xl font-display font-bold uppercase text-white transition-all">Schedule</a>
+        <a href="results.html" class="mobile-link text-3xl font-display font-bold uppercase text-transparent stroke-text hover:text-white transition-all">Results</a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-4 md:px-6 py-6 flex justify-between items-center mix-blend-difference text-white">
+        <!-- Nav Logo -->
+        <a href="index.html" class="font-display font-bold text-xl tracking-widest cursor-pointer">
+            <img src="https://cdn.discordapp.com/attachments/1323758532432236638/1461642517316501638/fiddy.png?ex=696b4c2c&is=6969faac&hm=be3b984545ca64a74b85e6efd936d77ce613365be742f7d9bed4304b6aa38ef9&" 
+                 alt="Team Fifty" 
+                 class="h-14 md:h-20 w-auto object-contain">
+        </a>
+        
+        <!-- Desktop Nav Links -->
+        <div class="hidden md:flex gap-8 text-sm uppercase tracking-widest font-bold items-center absolute left-1/2 -translate-x-1/2">
+            <a href="index.html" class="hover:text-ln-orange transition-colors">Home</a>
+            <a href="roster.html" class="hover:text-ln-orange transition-colors">Roster</a>
+            <a href="schedule.html" class="text-ln-orange transition-colors">Schedule</a>
+            <a href="results.html" class="hover:text-ln-orange transition-colors">Results</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="open-menu-btn" class="md:hidden bg-white text-black px-5 py-2 uppercase font-bold text-[10px] tracking-widest hover:bg-gradient-to-r hover:from-ln-orange hover:to-ln-purple transition-all hover:text-white rounded-sm">
+            Menu
+        </button>
+    </nav>
+
+    <!-- Header / Hero Section -->
+    <header class="relative h-[60vh] w-full flex flex-col justify-center items-center overflow-hidden border-b border-white/5">
+        <div class="absolute inset-0 z-0 opacity-20">
+            <!-- Generic Track Background -->
+            <img src="https://images.unsplash.com/photo-1599474924187-334a405be6b3?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover hero-img filter grayscale blur-sm" alt="">
+        </div>
+        
+        <div class="relative z-10 text-center flex flex-col items-center px-4">
+            <p class="gradient-text uppercase tracking-[0.3em] text-xs font-bold mb-4 hero-anim">2026 Season</p>
+            <h1 class="font-display hero-title leading-[0.85] font-bold uppercase mix-blend-overlay hero-anim">
+                Upcoming<br>
+                <span class="text-white opacity-90">Events</span>
+            </h1>
+        </div>
+    </header>
+
+    <!-- Schedule List Section -->
+    <section class="min-h-screen py-20 px-4 md:px-10 bg-ln-dark relative">
+        <div class="container mx-auto max-w-5xl">
+            
+            <!-- Category Title -->
+            <div class="flex items-center gap-4 mb-12 reveal-text">
+                <div class="h-[1px] bg-white/20 flex-grow"></div>
+                <span class="font-display uppercase tracking-widest text-sm text-gray-400 font-bold">Race Calendar</span>
+                <div class="h-[1px] bg-white/20 w-12"></div>
+            </div>
+
+            <!-- Schedule Container -->
+            <div class="flex flex-col gap-4">
+
+                <!-- Event 1: Sebring 12H -->
+                <div class="schedule-row reveal-card relative bg-white/10 border-l-2 border-white/20 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group rounded-r-lg">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12 w-full">
+                        <!-- Date -->
+                        <div class="flex flex-col min-w-[80px]">
+                            <span class="text-3xl font-display font-bold text-white group-hover:text-ln-orange transition-colors">28</span>
+                            <span class="text-xs uppercase tracking-widest text-gray-300 font-bold">March</span>
+                        </div>
+                        
+                        <!-- Logo -->
+                        <div class="w-32 h-16 flex-shrink-0 flex items-center justify-start">
+                             <img src="https://s100.iracing.com/wp-content/uploads/2025/12/iRSE-2026-Sebring-12-VCO.png" alt="Sebring 12H Logo" class="w-full h-full object-contain">
+                        </div>
+                        
+                        <!-- Event Info -->
+                        <div class="flex flex-col flex-grow">
+                            <h3 class="text-xl md:text-2xl font-bold uppercase text-white mb-1">Sebring 12H</h3>
+                            <div class="flex items-center gap-3 text-sm text-gray-300 flex-wrap">
+                                <span class="uppercase tracking-wider">Sebring International Raceway</span>
+                                <span class="w-1 h-1 rounded-full bg-gray-500"></span>
+                                <span class="uppercase tracking-wider text-ln-orange">Hypercar, LMP2, GT3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 2: Spa 24H -->
+                <div class="schedule-row reveal-card relative bg-white/10 border-l-2 border-white/20 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group rounded-r-lg">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12 w-full">
+                        <div class="flex flex-col min-w-[80px]">
+                            <span class="text-3xl font-display font-bold text-white group-hover:text-ln-orange transition-colors">11</span>
+                            <span class="text-xs uppercase tracking-widest text-gray-300 font-bold">July</span>
+                        </div>
+                        
+                        <!-- Logo -->
+                        <div class="w-32 h-16 flex-shrink-0 flex items-center justify-start">
+                             <img src="https://s100.iracing.com/wp-content/uploads/2025/12/iRSE-2026-SPA-24HR.png" alt="Spa 24H Logo" class="w-full h-full object-contain">
+                        </div>
+
+                        <div class="flex flex-col flex-grow">
+                            <h3 class="text-xl md:text-2xl font-bold uppercase text-white mb-1">24H of Spa</h3>
+                            <div class="flex items-center gap-3 text-sm text-gray-300 flex-wrap">
+                                <span class="uppercase tracking-wider">Circuit of Spa-Francorchamps</span>
+                                <span class="w-1 h-1 rounded-full bg-gray-500"></span>
+                                <span class="uppercase tracking-wider text-ln-orange">GT3 Class</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 3: Petit Le Mans -->
+                <div class="schedule-row reveal-card relative bg-white/10 border-l-2 border-white/20 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group rounded-r-lg">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12 w-full">
+                        <div class="flex flex-col min-w-[80px]">
+                            <span class="text-3xl font-display font-bold text-white group-hover:text-ln-orange transition-colors">26</span>
+                            <span class="text-xs uppercase tracking-widest text-gray-300 font-bold">Sept</span>
+                        </div>
+                        
+                        <!-- Logo -->
+                        <div class="w-32 h-16 flex-shrink-0 flex items-center justify-start">
+                             <img src="https://s100.iracing.com/wp-content/uploads/2025/12/iRSE-2026-Petit-Le-Mans-VCO.png" alt="Petit Le Mans Logo" class="w-full h-full object-contain">
+                        </div>
+
+                        <div class="flex flex-col flex-grow">
+                            <h3 class="text-xl md:text-2xl font-bold uppercase text-white mb-1">Petit Le Mans</h3>
+                            <div class="flex items-center gap-3 text-sm text-gray-300 flex-wrap">
+                                <span class="uppercase tracking-wider">Michelin Raceway Road Atlanta</span>
+                                <span class="w-1 h-1 rounded-full bg-gray-500"></span>
+                                <span class="uppercase tracking-wider text-ln-orange">Hypercar, LMP2, GT3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Same as Index) -->
+    <footer class="bg-black text-white pt-20 md:pt-32 pb-10 border-t border-gray-900">
+        <div class="container mx-auto px-6">
+            
+            <div class="flex flex-col md:flex-row justify-start items-start">
+                
+                <!-- Links Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-10 md:gap-20 w-full md:w-auto text-left">
+                    <!-- Platform -->
+                    <div class="flex flex-col gap-4">
+                        <h5 class="text-gray-500 uppercase text-[10px] tracking-widest font-bold text-white/40">Platform</h5>
+                        <a href="https://www.iracing.com/" target="_blank" class="hover:text-ln-orange transition-colors text-sm text-gray-300">iRacing</a>
+                        <a href="https://assettocorsa.gg/" target="_blank" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Assetto Corsa</a>
+                        <a href="https://lemansultimate.com/" target="_blank" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Le Mans Ultimate</a>
+                    </div>
+                    
+                    <!-- Team -->
+                    <div class="flex flex-col gap-4">
+                        <h5 class="text-gray-500 uppercase text-[10px] tracking-widest font-bold text-white/40">Team</h5>
+                        <a href="roster.html" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Roster</a>
+                        <a href="schedule.html" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Schedule</a>
+                        <a href="results.html" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Results</a>
+                    </div>
+
+                    <!-- Connect -->
+                    <div class="flex flex-col gap-4">
+                        <h5 class="text-gray-500 uppercase text-[10px] tracking-widest font-bold text-white/40">Connect</h5>
+                        <a href="#" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Twitch</a>
+                        <a href="https://www.instagram.com/fiftyracing/" class="hover:text-ln-orange transition-colors text-sm text-gray-300">Instagram</a>
+                        <a href="#" class="hover:text-ln-orange transition-colors text-sm text-gray-300">YouTube</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-600 text-[10px] uppercase tracking-widest">
+                <span>© 2026 Team Fifty. All Rights Reserved.</span>
+                <span class="hidden md:block opacity-20">|</span>
+                <span class="opacity-50 hover:opacity-100 transition-opacity">Fernando is faster than you</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // --- Mobile Menu Logic ---
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openMenuBtn = document.getElementById('open-menu-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            function toggleMenu(isOpen) {
+                if(isOpen) {
+                    mobileMenu.classList.remove('translate-x-full');
+                    document.body.style.overflow = 'hidden'; 
+                    mobileMenu.style.transform = '';
+
+                    gsap.fromTo(mobileLinks, 
+                        {x: 50, opacity: 0},
+                        {x: 0, opacity: 1, stagger: 0.1, duration: 0.5, delay: 0.2, ease: "power2.out"}
+                    );
+                } else {
+                    mobileMenu.classList.add('translate-x-full');
+                    document.body.style.overflow = ''; 
+                }
+            }
+
+            openMenuBtn.addEventListener('click', () => toggleMenu(true));
+            closeMenuBtn.addEventListener('click', () => toggleMenu(false));
+            mobileLinks.forEach(link => link.addEventListener('click', () => toggleMenu(false)));
+
+            // --- Init Tools ---
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    smooth: true,
+                });
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            }
+
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero Animation
+            gsap.from(".hero-anim", {
+                y: 50,
+                opacity: 0,
+                filter: "blur(10px)",
+                duration: 1.8,
+                stagger: 0.15,
+                ease: "power3.out",
+                delay: 0.2
+            });
+
+            // Hero Parallax
+            gsap.to(".hero-img", {
+                scrollTrigger: {
+                    trigger: "header",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                },
+                y: 100,
+                scale: 1.1
+            });
+
+            // Schedule Stagger - Improved loop to ensure triggering
+            const rows = document.querySelectorAll('.reveal-card');
+            rows.forEach((row, i) => {
+                gsap.from(row, {
+                    scrollTrigger: {
+                        trigger: row,
+                        start: "top 95%", // Triggers almost immediately when in view
+                    },
+                    y: 20,
+                    opacity: 0,
+                    duration: 0.5,
+                    delay: i * 0.1 // Slight stagger
+                });
+            });
+
+            // Custom Cursor
+            if (window.matchMedia("(hover: hover)").matches) {
+                const cursor = document.querySelector('.cursor-glow');
+                if(cursor) {
+                    gsap.set(cursor, {xPercent: -50, yPercent: -50, opacity: 1});
+                    let xTo = gsap.quickTo(cursor, "x", {duration: 0.6, ease: "power3"});
+                    let yTo = gsap.quickTo(cursor, "y", {duration: 0.6, ease: "power3"});
+                    window.addEventListener("mousemove", e => {
+                        xTo(e.clientX);
+                        yTo(e.clientY);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
