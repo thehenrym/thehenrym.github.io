@@ -103,7 +103,11 @@
         .hero-title {
             font-size: clamp(3rem, 10vw, 8rem);
         }
-        
+
+        /* Optimization: Hint to browser for smoother animation */
+        .card-img {
+            will-change: transform;
+        }
     </style>
 </head>
 <body class="bg-ln-black text-white font-body selection:bg-ln-orange selection:text-black">
@@ -163,8 +167,6 @@
     <section class="min-h-screen py-20 px-4 md:px-10 bg-ln-dark relative">
         <div class="container mx-auto max-w-7xl">
             
-            <!-- Category Title removed -->
-
             <!-- Grid Layout -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 
@@ -172,13 +174,13 @@
                 <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
                     <!-- Top Info Tags -->
                     <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
-                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Feb 2023</span>
-                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Ligier JS P320</span>
-                        <span class="text-[10px] text-purple-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-purple-500/30 backdrop-blur-md">LMP3</span>
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Feb 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Ligier JS P320</span>
+                        <span class="text-[10px] text-purple-400 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-purple-500/30">LMP3</span>
                     </div>
                     <!-- Image -->
                     <div class="absolute inset-0 z-0 bg-gray-900">
-                        <img src="https://members-assets.iracing.com/public/track-maps-screenshots/120_screenshots/05.jpg" alt="Daytona Speedway" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <img loading="lazy" src="https://members-assets.iracing.com/public/track-maps-screenshots/120_screenshots/05.jpg" alt="Daytona Speedway" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
                         <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
                     </div>
                     <!-- Content -->
@@ -191,10 +193,10 @@
                         <div class="border-t border-white/20 pt-4">
                             <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇳🇱 J. Genaro</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇺🇸 H. Moore</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇪🇸 G. Rico</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇵🇱 K. Grabiec</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇳🇱 J. Genaro</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇺🇸 H. Moore</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇪🇸 G. Rico</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇵🇱 K. Grabiec</span>
                             </div>
                         </div>
                     </div>
@@ -203,12 +205,12 @@
                 <!-- 2. Spa 12H (May 2023) -->
                 <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
                     <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
-                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">May 2023</span>
-                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Ferrari 296 GT3</span>
-                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">May 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Ferrari 296 GT3</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-green-500/30">GT3</span>
                     </div>
                     <div class="absolute inset-0 z-0 bg-gray-900">
-                        <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Spa-6.png" alt="Spa Francorchamps" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <img loading="lazy" src="https://lemansultimate.com/wp-content/uploads/2024/02/Spa-6.png" alt="Spa Francorchamps" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
                         <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
                     </div>
                     <div class="relative z-10 p-6 md:p-8">
@@ -217,23 +219,23 @@
                         <div class="border-t border-white/20 pt-4">
                             <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇺🇸 H. Moore</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇪🇸 G. Rico</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇺🇸 H. Moore</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇪🇸 G. Rico</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 3. Silverstone 500 (May 27, 2023) - NEW -->
+                <!-- 3. Silverstone 500 (May 27, 2023) -->
                 <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
                     <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
-                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">May 2023</span>
-                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Porsche 992 GT3</span>
-                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">May 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Porsche 992 GT3</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-green-500/30">GT3</span>
                     </div>
                     <div class="absolute inset-0 z-0 bg-gray-900">
-                        <img src="https://cdn.thesimgrid.com/jhfulqaf9fkpba2l1wf9nimtacpm" alt="Silverstone" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <img loading="lazy" src="https://cdn.thesimgrid.com/jhfulqaf9fkpba2l1wf9nimtacpm" alt="Silverstone" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
                         <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
                     </div>
                     <div class="relative z-10 p-6 md:p-8">
@@ -242,22 +244,48 @@
                         <div class="border-t border-white/20 pt-4">
                             <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 A. Chisholm</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇬🇧 A. Chisholm</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- 5. Silverstone 24H (Jul 15, 2023) - IMAGE UPDATED -->
+                
+                <!-- 4. Spa 8HR (Jul 9, 2023) -->
                 <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
                     <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
-                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Jul 2023</span>
-                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">BMW M4 GT3</span>
-                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Jul 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">McLaren 720S Evo</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-green-500/30">GT3</span>
                     </div>
                     <div class="absolute inset-0 z-0 bg-gray-900">
-                        <!-- Updated Image -->
-                        <img src="https://lemansultimate.com/wp-content/uploads/2025/09/le-mans-ultimate.exe-Screenshot-2025.09.11-15.36.14.50-scaled.png" alt="Silverstone" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <img loading="lazy" src="https://lemansultimate.com/wp-content/uploads/2024/02/Spa-6.png" alt="Spa" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-6 md:p-8">
+                        <h2 class="font-display text-2xl md:text-3xl font-bold uppercase leading-none mb-1 text-white shadow-black drop-shadow-md">Spa 8HR</h2>
+                        <div class="text-3xl md:text-4xl font-bold uppercase gradient-text mb-4 drop-shadow-lg">P23 Overall</div>
+                        <div class="border-t border-white/20 pt-4">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇬🇧 A. Modan</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇳🇱 D. Laurijsse</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇺🇸 H. Moore</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇹🇷 E. Akin</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Silverstone 24H (Jul 15, 2023) -->
+                <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
+                    <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Jul 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">BMW M4 GT3</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-green-500/30">GT3</span>
+                    </div>
+                    <div class="absolute inset-0 z-0 bg-gray-900">
+                        <img loading="lazy" src="https://lemansultimate.com/wp-content/uploads/2025/09/le-mans-ultimate.exe-Screenshot-2025.09.11-15.36.14.50-scaled.png" alt="Silverstone" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
                         <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
                     </div>
                     <div class="relative z-10 p-6 md:p-8">
@@ -266,25 +294,25 @@
                         <div class="border-t border-white/20 pt-4">
                             <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇫🇮 T. Lindqvist</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇪🇸 G. Rico</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 K. Verona</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 A. Modan</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇫🇮 T. Lindqvist</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇪🇸 G. Rico</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇬🇧 K. Verona</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇬🇧 A. Modan</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 6. 24 Hours of Spa (Jul 2023) - EXISTING -->
+                <!-- 6. 24 Hours of Spa (Jul 2023) -->
                 <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
                     <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
-                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Jul 2023</span>
-                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">BMW M4 GT3 EVO</span>
-                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Jul 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">BMW M4 GT3 EVO</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-green-500/30">GT3</span>
                     </div>
                     <div class="absolute inset-0 z-0 bg-gray-900">
-                        <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Spa-6.png" alt="Spa Francorchamps" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <img loading="lazy" src="https://lemansultimate.com/wp-content/uploads/2024/02/Spa-6.png" alt="Spa Francorchamps" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
                         <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
                     </div>
                     <div class="relative z-10 p-6 md:p-8">
@@ -293,24 +321,24 @@
                         <div class="border-t border-white/20 pt-4">
                             <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇺🇸 H. Moore</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇫🇮 T. Lindqvist</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇪🇸 G. Rico</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇺🇸 H. Moore</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇫🇮 T. Lindqvist</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇪🇸 G. Rico</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 7. Watkins Glen 12H (Aug 6, 2023) - EXISTING -->
+                <!-- 7. Watkins Glen 12H (Aug 6, 2023) -->
                 <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
                     <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
-                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Aug 2023</span>
-                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">McLaren 720S Evo</span>
-                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Aug 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">McLaren 720S Evo</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-green-500/30">GT3</span>
                     </div>
                     <div class="absolute inset-0 z-0 bg-gray-900">
-                        <img src="https://www.thesimgrid.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MjE5OTIsInB1ciI6ImJsb2JfaWQifX0=--cb05b8dddc64c8ba5e7f883d01663b71d70b8a88/Track=Watkins%20Glen.jpg" alt="Watkins Glen" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <img loading="lazy" src="https://www.thesimgrid.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MjE5OTIsInB1ciI6ImJsb2JfaWQifX0=--cb05b8dddc64c8ba5e7f883d01663b71d70b8a88/Track=Watkins%20Glen.jpg" alt="Watkins Glen" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
                         <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
                     </div>
                     <div class="relative z-10 p-6 md:p-8">
@@ -319,24 +347,24 @@
                         <div class="border-t border-white/20 pt-4">
                             <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 A. Modan</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇳🇱 D. Laurijsse</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇺🇸 H. Moore</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇹🇷 E. Akin</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇬🇧 A. Modan</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇳🇱 D. Laurijsse</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇺🇸 H. Moore</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇹🇷 E. Akin</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 8. 24H Le Mans (Aug 6, 2023) - NEW ADDITION -->
+                <!-- 8. 24H Le Mans (Aug 6, 2023) -->
                 <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
                     <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
-                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Aug 2023</span>
-                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Cadillac V-Series.R</span>
-                        <span class="text-[10px] text-red-500 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-red-600 backdrop-blur-md">Hypercar</span>
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Aug 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Cadillac V-Series.R</span>
+                        <span class="text-[10px] text-red-500 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-red-600">Hypercar</span>
                     </div>
                     <div class="absolute inset-0 z-0 bg-gray-900">
-                        <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Desktop-Screenshot-2024.01.30-10.34.17.95.png" alt="Le Mans" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <img loading="lazy" src="https://lemansultimate.com/wp-content/uploads/2024/02/Desktop-Screenshot-2024.01.30-10.34.17.95.png" alt="Le Mans" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
                         <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
                     </div>
                     <div class="relative z-10 p-6 md:p-8">
@@ -345,24 +373,24 @@
                         <div class="border-t border-white/20 pt-4">
                             <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇺🇸 H. Moore</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇫🇮 T. Lindqvist</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 K. Verona</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇺🇸 H. Moore</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇫🇮 T. Lindqvist</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇬🇧 K. Verona</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 9. Bathurst 6HR (Oct 14, 2023) - EXISTING -->
+                <!-- 9. Bathurst 6HR (Oct 14, 2023) -->
                 <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
                     <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
-                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Oct 2023</span>
-                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">BMW M4 GT3</span>
-                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Oct 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">BMW M4 GT3</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-green-500/30">GT3</span>
                     </div>
                     <div class="absolute inset-0 z-0 bg-gray-900">
-                        <img src="https://www.thesimgrid.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NzU3LCJwdXIiOiJibG9iX2lkIn19--132ca2c7d7a7f9798be01948307098ef7587f566/banner-bathurst.jpg" alt="Bathurst" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <img loading="lazy" src="https://www.thesimgrid.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NzU3LCJwdXIiOiJibG9iX2lkIn19--132ca2c7d7a7f9798be01948307098ef7587f566/banner-bathurst.jpg" alt="Bathurst" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
                         <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
                     </div>
                     <div class="relative z-10 p-6 md:p-8">
@@ -371,22 +399,22 @@
                         <div class="border-t border-white/20 pt-4">
                             <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇫🇮 T. Lindqvist</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 K. Verona</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇫🇮 T. Lindqvist</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇬🇧 K. Verona</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 10. Fuji (Nov 2023) - EXISTING -->
+                <!-- 10. Fuji (Nov 2023) -->
                 <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
                     <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
-                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Nov 2023</span>
-                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">BMW M4 GT3 EVO</span>
-                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Nov 2023</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">BMW M4 GT3 EVO</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-green-500/30">GT3</span>
                     </div>
                     <div class="absolute inset-0 z-0 bg-gray-900">
-                        <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Fuji-6.png" alt="Fuji Speedway" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <img loading="lazy" src="https://lemansultimate.com/wp-content/uploads/2024/02/Fuji-6.png" alt="Fuji Speedway" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
                         <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
                     </div>
                     <div class="relative z-10 p-6 md:p-8">
@@ -395,22 +423,22 @@
                         <div class="border-t border-white/20 pt-4">
                             <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇫🇮 T. Lindqvist</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇫🇮 T. Lindqvist</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 11. Spa 6H (Jun 2024) - EXISTING -->
+                <!-- 11. Spa 6H (Jun 2024) -->
                 <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
                     <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
-                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Jun 2024</span>
-                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">McLaren 720S Evo</span>
-                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Jun 2024</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">McLaren 720S Evo</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-green-500/30">GT3</span>
                     </div>
                     <div class="absolute inset-0 z-0 bg-gray-900">
-                        <img src="https://lemansultimate.com/wp-content/uploads/2024/02/Spa-6.png" alt="Spa" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <img loading="lazy" src="https://lemansultimate.com/wp-content/uploads/2024/02/Spa-6.png" alt="Spa" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
                         <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
                     </div>
                     <div class="relative z-10 p-6 md:p-8">
@@ -419,22 +447,22 @@
                         <div class="border-t border-white/20 pt-4">
                             <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 K. Verona</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇷🇸 S. Zoranovic</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇬🇧 K. Verona</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇷🇸 S. Zoranovic</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 12. 24H Nordschleife (Jul 2024) - EXISTING -->
+                <!-- 12. 24H Nordschleife (Jul 2024) -->
                 <div class="result-card reveal-card relative group bg-white/5 border border-white/10 hover:border-ln-orange/50 transition-colors rounded-xl overflow-hidden aspect-[3/4] flex flex-col justify-end">
                     <div class="absolute top-5 left-5 z-20 flex gap-2 flex-wrap">
-                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">Jul 2024</span>
-                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-white/10 backdrop-blur-md">BMW M4 GT3</span>
-                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/50 px-2 py-1 rounded border border-green-500/30 backdrop-blur-md">GT3</span>
+                        <span class="text-[10px] text-ln-orange font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">Jul 2024</span>
+                        <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-white/10">BMW M4 GT3</span>
+                        <span class="text-[10px] text-green-400 font-bold tracking-widest uppercase bg-black/80 px-2 py-1 rounded border border-green-500/30">PRO</span>
                     </div>
                     <div class="absolute inset-0 z-0 bg-gray-900">
-                        <img src="https://cdn.thesimgrid.com/d6kj95rg6vnbak1ux8752ydeocap" alt="Nurburgring" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
+                        <img loading="lazy" src="https://cdn.thesimgrid.com/d6kj95rg6vnbak1ux8752ydeocap" alt="Nurburgring" class="card-img w-full h-full object-cover" onerror="this.style.display='none'">
                         <div class="absolute inset-0 bg-gradient-to-t from-ln-black via-black/40 to-transparent"></div>
                     </div>
                     <div class="relative z-10 p-6 md:p-8">
@@ -443,9 +471,9 @@
                         <div class="border-t border-white/20 pt-4">
                             <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-2">Drivers</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇬🇧 K. Verona</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
-                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5 backdrop-blur-sm">🇷🇸 S. Zoranovic</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇬🇧 K. Verona</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🏴󠁧󠁢󠁳󠁣󠁴󠁿 J. Grossart</span>
+                                <span class="text-xs bg-white/10 px-2 py-1 rounded text-white border border-white/5">🇷🇸 S. Zoranovic</span>
                             </div>
                         </div>
                     </div>
